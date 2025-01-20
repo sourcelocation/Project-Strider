@@ -8875,7 +8875,13 @@ Node3DEditor::Node3DEditor() {
 
 	// Main toolbars.
 	
-
+	Control *safe_area = memnew(Control);
+	viewport_container->add_child(safe_area);
+	Rect2i safe_area_rect = DisplayServer::get_singleton()->get_display_safe_area();
+	safe_area->set_anchor_and_offset(SIDE_LEFT, Control::ANCHOR_BEGIN, safe_area_rect.position.x);
+	safe_area->set_anchor_and_offset(SIDE_TOP, Control::ANCHOR_BEGIN, safe_area_rect.position.y);
+	safe_area->set_anchor_and_offset(SIDE_RIGHT, Control::ANCHOR_END, -8 * EDSCALE);
+	safe_area->set_anchor_and_offset(SIDE_BOTTOM, Control::ANCHOR_END, -8 * EDSCALE);
 
 	VFlowContainer *main_menu_hbox = memnew(VFlowContainer);
 	main_menu_hbox->add_theme_constant_override("separation", 4 * EDSCALE);
@@ -8883,7 +8889,7 @@ Node3DEditor::Node3DEditor() {
 	main_menu_hbox->set_anchor_and_offset(SIDE_TOP, Control::ANCHOR_BEGIN, 8 * EDSCALE);
 	main_menu_hbox->set_anchor_and_offset(SIDE_RIGHT, Control::ANCHOR_BEGIN, 500 * EDSCALE);
 	main_menu_hbox->set_anchor_and_offset(SIDE_BOTTOM, Control::ANCHOR_END, -8 * EDSCALE);
-	viewport_container->add_child(main_menu_hbox);
+	safe_area->add_child(main_menu_hbox);
 
 	String sct;
 

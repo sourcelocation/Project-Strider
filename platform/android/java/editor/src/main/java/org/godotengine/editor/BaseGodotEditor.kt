@@ -153,7 +153,7 @@ abstract class BaseGodotEditor : GodotActivity() {
 
 		// Prevent the editor window from showing in the display cutout
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && getEditorWindowInfo() == EDITOR_MAIN_INFO) {
-			window.attributes.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER
+			window.attributes.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
 		}
 
 		// We exclude certain permissions from the set we request at startup, as they'll be

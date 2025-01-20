@@ -185,7 +185,7 @@ class Godot(private val context: Context) {
 	private var xrMode = XRMode.REGULAR
 	private var expansionPackPath: String = ""
 	private var useApkExpansion = false
-	private val useImmersive = AtomicBoolean(false)
+	private val useImmersive = AtomicBoolean(true)
 	private var useDebugOpengl = false
 	private var darkMode = false
 
