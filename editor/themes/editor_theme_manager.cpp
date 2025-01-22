@@ -1932,28 +1932,39 @@ void EditorThemeManager::_populate_editor_styles(const Ref<EditorTheme> &p_theme
 		p_theme->set_color("icon_hover_color", "BottomPanelButton", icon_hover_color);
 		p_theme->set_color("icon_hover_pressed_color", "BottomPanelButton", icon_hover_color);
 
+		
 		// Mobile UI buttons
+		p_theme->set_type_variation("MobileUIButton", "Button");
+
 		Ref<StyleBoxFlat> style_mobile_ui_button_regular = p_config.button_style->duplicate();
 		Ref<StyleBoxFlat> style_mobile_ui_button_hover = p_config.button_style_hover->duplicate();
+		Ref<StyleBoxEmpty> style_mobile_ui_button_focus = make_empty_stylebox(0, 0, 0, 0);
 		Ref<StyleBoxFlat> style_mobile_ui_button_pressed = p_config.button_style_pressed->duplicate();
 		Ref<StyleBoxFlat> style_mobile_ui_button_disabled = p_config.button_style_disabled->duplicate();
-		
-		style_mobile_ui_button_regular->set_bg_color(p_config.accent_color * Color(1, 1, 1, 0.3));
-		style_mobile_ui_button_hover->set_bg_color(p_config.accent_color * Color(1, 1, 1, 0.5));
-		style_mobile_ui_button_pressed->set_bg_color(p_config.accent_color * Color(1, 1, 1, 0.7));
-		style_mobile_ui_button_disabled->set_bg_color(p_config.accent_color * Color(1, 1, 1, 0.1));
 
-		// style_mobile_ui_button_regular->set_content_margin_all(20);
+		style_mobile_ui_button_regular->set_bg_color(p_config.base_color * Color(1, 1, 1, 0.8));
+		style_mobile_ui_button_hover->set_bg_color(p_config.base_color * Color(1, 1, 1, 0.9));
+		style_mobile_ui_button_pressed->set_bg_color(p_config.mono_color * Color(1, 1, 1, 0.9));
+		style_mobile_ui_button_disabled->set_bg_color(p_config.base_color * Color(1, 1, 1, 0.5));
 
-		// style_mobile_ui_button_regular->set_corner_radius_all(0);
-		// style_mobile_ui_button_hover->set_corner_radius_all(0);
-		// style_mobile_ui_button_pressed->set_corner_radius_all(0);
-		// style_mobile_ui_button_disabled->set_corner_radius_all(0);
+		style_mobile_ui_button_regular->set_content_margin_all(20);
+
+		style_mobile_ui_button_regular->set_corner_radius_all(4 * EDSCALE);
+		style_mobile_ui_button_hover->set_corner_radius_all(4 * EDSCALE);
+		style_mobile_ui_button_pressed->set_corner_radius_all(4 * EDSCALE);
+		style_mobile_ui_button_disabled->set_corner_radius_all(4 * EDSCALE);
+
 		p_theme->set_stylebox(CoreStringName(normal), "MobileUIButton", style_mobile_ui_button_regular);
 		p_theme->set_stylebox(SceneStringName(hover), "MobileUIButton", style_mobile_ui_button_hover);
 		p_theme->set_stylebox(SceneStringName(pressed), "MobileUIButton", style_mobile_ui_button_pressed);
 		p_theme->set_stylebox("disabled", "MobileUIButton", style_mobile_ui_button_disabled);
 		
+		p_theme->set_color("icon_normal_color", "MobileUIButton", p_config.accent_color);
+		p_theme->set_color("icon_hover_color", "MobileUIButton", p_config.accent_color);
+		p_theme->set_color("icon_focus_color", "MobileUIButton", p_config.accent_color);
+		p_theme->set_color("icon_hover_pressed_color", "MobileUIButton", p_config.base_color);
+		p_theme->set_color("icon_pressed_color", "MobileUIButton", p_config.base_color);
+		p_theme->set_color("icon_disabled_color", "MobileUIButton", p_config.base_color * Color(1, 1, 1, 0.5));
 
 		
 

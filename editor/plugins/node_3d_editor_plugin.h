@@ -628,6 +628,7 @@ class Node3DEditor : public VBoxContainer {
 
 public:
 	static const unsigned int VIEWPORTS_COUNT = 4;
+	Control *safe_area = nullptr;
 
 	enum ToolMode {
 		TOOL_MODE_SELECT,

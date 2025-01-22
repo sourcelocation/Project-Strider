@@ -1201,8 +1201,10 @@ void Node3DEditorViewport::_update_name() {
 		name += " " + TTR("[auto]");
 	}
 
-	view_menu->set_text(name);
-	view_menu->reset_size();
+	if (!EDITOR_GET("interface/editor/mobile_mode")) {
+		view_menu->set_text(name);
+		view_menu->reset_size();
+	}
 }
 
 void Node3DEditorViewport::_compute_edit(const Point2 &p_point) {
@@ -5533,9 +5535,20 @@ Node3DEditorViewport::Node3DEditorViewport(Node3DEditor *p_spatial_editor, int p
 	vbox->set_offset(SIDE_TOP, 10 * EDSCALE);
 
 	view_menu = memnew(MenuButton);
-	view_menu->set_flat(false);
+	
 	view_menu->set_h_size_flags(0);
 	view_menu->set_shortcut_context(this);
+	view_menu->set_flat(false);
+	if (EDITOR_GET("interface/editor/mobile_mode")) {
+		view_menu->set_theme_type_variation("MobileUIButton");
+		view_menu->set_custom_minimum_size(Size2(100, 100));
+		view_menu->set_expand_icon(true);
+		view_menu->set_focus_mode(Control::FOCUS_NONE);
+
+		// spatial_editor->safe_area->add_child(view_menu);
+	} else {
+		vbox->add_child(view_menu);
+	}
 	vbox->add_child(view_menu);
 
 	view_menu->get_popup()->set_hide_on_checkable_item_selection(false);
@@ -8149,6 +8162,7 @@ void Node3DEditor::_update_theme() {
 	for (int i = 0; i < TOOL_MAX; i++) {
 		tool_button[i]->set_custom_minimum_size(Size2(100, 100));
 		tool_button[i]->set_expand_icon(true);
+		tool_button[i]->set_focus_mode(Control::FOCUS_NONE);
 	}
 
 	tool_button[TOOL_MODE_SELECT]->set_button_icon(get_editor_theme_icon(SNAME("ToolSelect")));
@@ -8875,13 +8889,14 @@ Node3DEditor::Node3DEditor() {
 
 	// Main toolbars.
 	
-	Control *safe_area = memnew(Control);
+	safe_area = memnew(Control);
+	safe_area->set_mouse_filter(MOUSE_FILTER_IGNORE);
 	viewport_container->add_child(safe_area);
 	Rect2i safe_area_rect = DisplayServer::get_singleton()->get_display_safe_area();
 	safe_area->set_anchor_and_offset(SIDE_LEFT, Control::ANCHOR_BEGIN, safe_area_rect.position.x);
-	safe_area->set_anchor_and_offset(SIDE_TOP, Control::ANCHOR_BEGIN, safe_area_rect.position.y);
-	safe_area->set_anchor_and_offset(SIDE_RIGHT, Control::ANCHOR_END, -8 * EDSCALE);
-	safe_area->set_anchor_and_offset(SIDE_BOTTOM, Control::ANCHOR_END, -8 * EDSCALE);
+	safe_area->set_anchor_and_offset(SIDE_TOP, Control::ANCHOR_BEGIN, 0);
+	safe_area->set_anchor_and_offset(SIDE_RIGHT, Control::ANCHOR_END, -safe_area_rect.size.x);
+	safe_area->set_anchor_and_offset(SIDE_BOTTOM, Control::ANCHOR_END, 0);
 
 	VFlowContainer *main_menu_hbox = memnew(VFlowContainer);
 	main_menu_hbox->add_theme_constant_override("separation", 4 * EDSCALE);
@@ -8890,6 +8905,7 @@ Node3DEditor::Node3DEditor() {
 	main_menu_hbox->set_anchor_and_offset(SIDE_RIGHT, Control::ANCHOR_BEGIN, 500 * EDSCALE);
 	main_menu_hbox->set_anchor_and_offset(SIDE_BOTTOM, Control::ANCHOR_END, -8 * EDSCALE);
 	safe_area->add_child(main_menu_hbox);
+	main_menu_hbox->set_mouse_filter(MOUSE_FILTER_IGNORE);
 
 	String sct;
 
